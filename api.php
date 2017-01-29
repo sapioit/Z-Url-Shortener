@@ -221,11 +221,24 @@ $querries = getQuerries();
  * @param String why did I need $var again? [[Description]]
  */
 function unshrink($return = false){
-	/* we get the list of querries */
+	/* gets the list of querries */
 	$querries = getQuerries();
-	/* we transform the codes in links */
-	foreach ($querries as $to_site){
-		redirect($to_site);
+	/* transforms the codes in links */
+	foreach ($querries as $q_name => $q_value){
+		/*** !!! DANGER !!! Untested feature, migth just open a new tab and change it's address rapidly !!! DANGER !!! ***/
+		/* TO DO : Use a function for this */
+		$query = 'SELECT `link` FROM `'. $db_prefix .'links` where `code` = `'. $q_value->key() .'`';
+		$processed_query = mysqli_query($db_connection, $query);
+		if (! $processed_query) {
+			echo "QUery execution failed. Error" .
+				mysqli_errno($db_connection) . " : " .
+				mysqli_error($db_connection);
+		}
+		else {
+			$query_link_extract = mysqli_fetch_assoc($processed_query);
+			$query [$q_name] = $query_link_extract ['link'];
+
+		}
 	}
 	/* if we have one link, we redirect the current page to it */
 	if (count($querries) == 1) {
