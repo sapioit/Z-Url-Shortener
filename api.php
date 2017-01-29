@@ -109,7 +109,7 @@ function redirect($go_to = ''){
 }
 
 function openTab($go_open) {
-	echo "<script type="text/javascript">
+	echo "<script type=\"text/javascript\">
 			var win = window.open('".$go_open."', '_blank');
 			win.focus();
 		</script>";
@@ -237,7 +237,7 @@ function unshrink($return = false){
 	} elseif (count($querries)<1){
 		// 404
 	/* if we have more than one link, we open all but the last in new tabs, and redirect the current page to the last */
-	/* DANGER !!!! Untested feature, migth just open a new tab and change it's address rapidly */
+	/*** !!! DANGER !!! Untested feature, migth just open a new tab and change it's address rapidly !!! DANGER !!! ***/
 	} elseif (count($querries)>1){
 		/* to keep track of the numbe of links */
 		$temp_count = count($querries);
@@ -259,8 +259,7 @@ function unshrink($return = false){
 
 // GET THE SENT DAT
 function prettyGet(){
-	echo '<pre>';
-	echo getURL('full')."<br/>";
+	echo '<pre>'.getURL('full')."<br/>";
 	foreach($_GET as $key => $val){
 		echo "<br/><b>Name</b>:  <font color='#cc0000'>" . $key . "</font><br/>";
 		/* var_dump($key); */
