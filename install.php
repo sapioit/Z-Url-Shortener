@@ -90,7 +90,7 @@ if(!$processed_query) {
 
 
 
-
+/* query for inserting default settings */
 $query = "INSERT IGNORE INTO `". $db_prefix . "settings`
 	(name, value) VALUES
 	(\"title\", \"Zaldinka\"),

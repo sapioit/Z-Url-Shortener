@@ -100,11 +100,25 @@ $a = new api;
 
 //$to_redirect = "http://localhost/_test/_scripts/01/api.php?_url=http%3A%2F%2Ffuck.it%2Fon%25%2633%3Dz%3F3&_do=Shorten%21&@e=1&!t&~q=t&fd645wefa4v65w";
 //$to_redirect = "http://google.RO";
-if(isset($to_redirect)){
-	header('Location: '.$to_redirect);
-	echo '<meta http-equiv="refresh" content="0; url='.$to_redirect.'" />
-	<script type="text/javascript">window.location.assign("'.$to_redirect.'");</script>';
+function redirect($go_to = ''){
+	header('Location: '.$go_to);
+	echo '<meta http-equiv="refresh" content="0; url='.$go_to.'" />
+		<script type="text/javascript">
+			window.location.assign("'.$go_to.'");
+		</script>';
 }
+
+function openTab($go_open) {
+	echo "<script type="text/javascript">
+			var win = window.open('".$go_open."', '_blank');
+			win.focus();
+		</script>";
+}
+/* TODO - please, automate the redirection, future self.
+if(isset($to_redirect)){
+	redirect($to_redirect);
+}
+*/
 
 
 /**
@@ -199,16 +213,45 @@ function getQuerries($cond = null){
 	}
 	return $querries;
 }
+/* Getting the querries */
 $querries = getQuerries();
-function unshrink($var = []){
+
+/**
+ * Opens the long url(s), starting from the short code
+ * @param String why did I need $var again? [[Description]]
+ */
+function unshrink($return = false){
+	/* we get the list of querries */
 	$querries = getQuerries();
+	/* we transform the codes in links */
+	foreach ($querries as $to_site){
+		redirect($to_site);
+	}
+	/* if we have one link, we redirect the current page to it */
 	if (count($querries) == 1) {
-		// redirect
+		/* foreach to not worry about the details of the array */
+		foreach ($querries as $to_site){
+			redirect($to_site);
+		}
+	/* if we have no links, we redirect to the NOT_FOUND page */
 	} elseif (count($querries)<1){
 		// 404
+	/* if we have more than one link, we open all but the last in new tabs, and redirect the current page to the last */
+	/* DANGER !!!! Untested feature, migth just open a new tab and change it's address rapidly */
 	} elseif (count($querries)>1){
-		foreach ($querries as $key => $value){
-			// open popups
+		/* to keep track of the numbe of links */
+		$temp_count = count($querries);
+		/* foreach to not worry about the details of the array */
+		foreach ($querries as $key => $to_site){
+			/* if there is more than one link remaining */
+			if($temp_count>1){
+				/* we open the link in a new tab */
+				openTab($to_site);
+				/* and decrease the count of links to open */
+				$temp_count--;
+			}
+			else /* otherwise we redirect to that last link */
+				redirect($to_site);
 		}
 	}
 }
@@ -217,9 +260,9 @@ function unshrink($var = []){
 // GET THE SENT DAT
 function prettyGet(){
 	echo '<pre>';
-	echo getURL('full');
+	echo getURL('full')."<br/>";
 	foreach($_GET as $key => $val){
-		echo "<br/><br/><b>Name</b>:  <font color='#cc0000'>" . $key . "</font><br/>";
+		echo "<br/><b>Name</b>:  <font color='#cc0000'>" . $key . "</font><br/>";
 		/* var_dump($key); */
 		if(strlen(trim($val))>0){
 			echo "<b>Value</b>: <font color='#cc0000'>".$val."</font><br/>";
