@@ -3,6 +3,42 @@
 /* App: link shortner */
 require_once("db.php");
 
+interface data_i{
+	public function enc_html($something) : String;
+	public function dec_html($something) : String;
+	public function enc_url($something) : String;
+	public function dec_url($something) : String;
+}
+class data_c implements data_i{
+	public function enc_html($something) : String{
+		return htmlentities($something);
+	}
+	public function dec_html($something) : String{
+		return html_entity_decode($something);
+	}
+	public function enc_url($something) : String{
+		return rawurlencode($something);
+		return urlencode($something);
+	}
+	public function dec_url($something) : String{
+		return rawurldecode($something);
+		return urldecode($something);
+	}
+}
+$data = new data_c();
+$str = 'aaa <a/> / ? \' " ; -- bbb';
+$test =  ''.
+	($data -> enc_html($str) ) . '<br/>' .
+	($data -> dec_html($str) ) . '<br/>' .
+	($data -> enc_url($str) ) . '<br/>' .
+	($data -> dec_url($str) ) . '<br/>' .
+	($data -> dec_html($data -> enc_html($str) ) ) . '<br/>' .
+	($data -> enc_url($data -> dec_url($str) ) ) . '<br/>' ;
+echo $test.'<pre>';
+var_dump($test);
+echo '</pre>';
+
+
 /* Handles encrypting/encoding and decrypting/decoding */
 function data_enc_html($something){
 	return htmlentities($something);
@@ -96,16 +132,16 @@ class api{
 $a = new api;
 
 
-// REDIRECTING TO A PAGE
-
-//$to_redirect = "http://localhost/_test/_scripts/01/api.php?_url=http%3A%2F%2Ffuck.it%2Fon%25%2633%3Dz%3F3&_do=Shorten%21&@e=1&!t&~q=t&fd645wefa4v65w";
-//$to_redirect = "http://google.RO";
 function redirectTo($go_to = ''){
 	header('Location: '.$go_to);
 	echo '<meta http-equiv="refresh" content="0; url='.$go_to.'" />
 		<script type="text/javascript">
 			window.location.assign("'.$go_to.'");
 		</script>';
+	// REDIRECTING TO A PAGE
+
+	// $to_redirect = "http://localhost/_test/_scripts/01/api.php?_url=http%3A%2F%2Ffuck.it%2Fon%25%2633%3Dz%3F3&_do=Shorten%21&@e=1&!t&~q=t&fd645wefa4v65w";
+	// redirectTo($to_redirect);
 }
 
 function openTab($go_open) {
