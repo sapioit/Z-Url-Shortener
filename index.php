@@ -1,7 +1,7 @@
 <?php
 /*--=----|----=----|----=----|----=----|----=----|----=--*/
 /* App: link shortner */
-require_once("api.php");
+require_once("functions.php");
 
 echo '
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ echo '
 			<input type="text" name="_url" placeholder="URL to shorten"/ enctype="application/x-www-form-urlencoded">
 			<input type="submit" name="_do" value="Shorten!"/>
 		</form>
-		'.prettyGet().'
+		'.listGet().'
 	</body>
 </html>
 ';
