@@ -3,6 +3,9 @@
 /* App: link shortner */
 require_once ("config.php");
 
+/* Correcting the charset */
+define('CHARSET', 'ISO-8859-1');
+
 /* If there's a DB name's prefix, it's added, with a _ before */
 if( strlen($db_prefix)>0 ) $db_prefix .= "_";
 

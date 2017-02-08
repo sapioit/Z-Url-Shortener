@@ -2,18 +2,22 @@
 /*--=----|----=----|----=----|----=----|----=----|----=--*/
 /* App: link shortner */
 require_once("db.php");
+/*header("Content-Type: text/txt");*/
+echo json_encode(['a'=>'test','b'], JSON_PRETTY_PRINT)."\n";
 
-interface data_i{
+interface data_crypt_interface{
 	public function enc_html($something) : String;
 	public function dec_html($something) : String;
 	public function enc_url($something) : String;
 	public function dec_url($something) : String;
 }
-class data_c implements data_i{
+class data_crypt_class implements data_crypt_interface{
 	public function enc_html($something) : String{
-		return htmlentities($something);
+		return htmlspecialchars($something, ENT_QUOTES, 'UTF-8');
+		return htmlentities($something, ENT_QUOTES, 'UTF-8');
 	}
 	public function dec_html($something) : String{
+		return htmlspecialchars_decode($something);
 		return html_entity_decode($something);
 	}
 	public function enc_url($something) : String{
@@ -25,18 +29,7 @@ class data_c implements data_i{
 		return urldecode($something);
 	}
 }
-$data = new data_c();
-$str = 'aaa <a/> / ? \' " ; -- bbb';
-$test =  ''.
-	($data -> enc_html($str) ) . '<br/>' .
-	($data -> dec_html($str) ) . '<br/>' .
-	($data -> enc_url($str) ) . '<br/>' .
-	($data -> dec_url($str) ) . '<br/>' .
-	($data -> dec_html($data -> enc_html($str) ) ) . '<br/>' .
-	($data -> enc_url($data -> dec_url($str) ) ) . '<br/>' ;
-echo $test.'<pre>';
-var_dump($test);
-echo '</pre>';
+$crypt = new data_crypt_class();
 
 
 /* Handles encrypting/encoding and decrypting/decoding */
