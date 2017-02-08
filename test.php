@@ -2,7 +2,6 @@
 
 
 function test($function_name, $desired_output, ...$function_input){
-	global $crypt;
 	/*
 	echo json_encode($function_input, JSON_PRETTY_PRINT)."\n";
 	echo sizeof($function_input)."\n";
