@@ -3,7 +3,7 @@
 /* App: link shortner */
 require_once("db.php");
 /*header("Content-Type: text/txt");*/
-echo json_encode(['a'=>'test','b'], JSON_PRETTY_PRINT)."\n";
+echo "<pre>".json_encode([['a', 'b'=>'test','c'],'d'], JSON_PRETTY_PRINT)."</pre>\n";
 
 interface data_crypt_interface{
 	public function enc_html($something) : String;
@@ -27,6 +27,12 @@ class data_crypt_class implements data_crypt_interface{
 	public function dec_url($something) : String{
 		return rawurldecode($something);
 		return urldecode($something);
+	}
+	public function enc_json($something) : String{
+		return json_encode($something);
+	}
+	public function dec_json($something) : String{
+		return json_decode($something);
 	}
 }
 $crypt = new data_crypt_class();

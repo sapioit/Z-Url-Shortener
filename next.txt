@@ -1,0 +1,3 @@
+DO implement JSON in the testing module
+TO improve the testing module
+BECAUSE testing is important
