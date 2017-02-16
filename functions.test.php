@@ -1,7 +1,7 @@
 <?php
 require_once("functions.php");
 require_once("test.php");
-$org_str = "http://a.com/\\ceva'alt\"ceva;:<test/>";
+/*$org_str = "http://a.com/\\ceva'alt\"ceva;:<test/>";*/
 test('$GLOBALS["crypt"]->enc_html',
 	 'http://a.com/\\ceva\'alt"ceva<test/>',
 	 '32--\'"<zzz>');
@@ -15,3 +15,7 @@ test('$GLOBALS["crypt"]->enc_html',
 test('$GLOBALS["crypt"]->enc_html',
 	 '32--&#039;&quot;&lt;zzz&gt;',
 	 '32--\'"<zzz>');
+
+test('$GLOBALS["crypt"]->enc_html',
+	 '32--&#039;&quot;&lt;zzz&gt;',
+	 '["32--\'\"<zzz>","aaa"]');

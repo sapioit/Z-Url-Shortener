@@ -3,7 +3,7 @@
 /* App: link shortner */
 require_once("db.php");
 /*header("Content-Type: text/txt");*/
-echo "<pre>".json_encode([['a', 'b'=>'test','c'],'d'], JSON_PRETTY_PRINT)."</pre>\n";
+/*echo "<pre>".json_encode([['a', 'b'=>'test','c'],'d'], JSON_PRETTY_PRINT)."</pre>\n";*/
 
 interface data_crypt_interface{
 	public function enc_html($something) : String;
