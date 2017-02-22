@@ -1,27 +1,14 @@
 <?php
-
 function test_clean($input){
-	return str_replace('\'', '\\\'', $input);
+	return "<<<'TESTING'\n" . $input . "\nTESTING\n";
 }
-
 function test($function_name, $desired_output, $function_input){
 	/*
 	echo json_encode($function_input, JSON_PRETTY_PRINT)."\n";
 	echo sizeof($function_input)."\n";
 	*/
-	/*if (sizeof($function_input) > 1){
-		$function_call = 'return '.$function_name.'(';
-		foreach($function_input as $single_input){
-			$function_call = $function_call . '"'.test_clean($clean_input).'"';
-		}
-		$function_call = $function_call . ');';
-	} else if (sizeof($function_input) == 0) {
-		$function_call = 'return '.$function_name.'();';
-	} else if (sizeof($function_input) == 1) {
-		$function_call = 'return '.$function_name.'(\''.test_clean($function_input[0]).'\');';
-	}*/
 	if (gettype(json_decode($function_input)) !== 'array'){
-		$function_call = 'return '.$function_name."('".test_clean($function_input)."');";
+		$function_call = 'return '.$function_name."( ".test_clean($function_input)." );";
 	} else {
 		$function_input = json_decode($function_input);
 		$nr_inputs = sizeof($function_input);
@@ -31,14 +18,14 @@ function test($function_name, $desired_output, $function_input){
 			$function_call = 'return '.$function_name.'(';
 			$counter = 1;
 			foreach ($function_input as $input){
-				$function_call = $function_call . "'".test_clean($input)."'";
+				$function_call = $function_call . test_clean($input);
 				if($counter++ != $nr_inputs)
 					$function_call = $function_call . ",";
 			}
-			$function_call = $function_call .');';
+			$function_call = $function_call .");\n";
 		}
 	}
-	/*echo $function_call."\n";*/
+	/*echo "<pre>".$function_call."</pre>\n";*/
 	$function_output = eval($function_call);
 	/*
 	$desired_output_ = call_user_func_array
