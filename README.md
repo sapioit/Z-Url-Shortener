@@ -1,4 +1,4 @@
-# Z-Url-Shortener
+# Z-Url-Shortener [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 Just your average overcomplicated URL shortener
 
 ## Conditions may apply...
